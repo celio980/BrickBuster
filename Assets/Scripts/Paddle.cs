@@ -15,6 +15,11 @@ public class Paddle : MonoBehaviour
         Cursor.visible = false;
     }
 
+    public void Reset()
+    {
+        gameObject.SetActive(true);
+    }
+
     private void FixedUpdate()
     {
         Move();

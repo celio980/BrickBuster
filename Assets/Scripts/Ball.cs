@@ -8,10 +8,12 @@ public class Ball : MonoBehaviour
     private bool isInPlay = false;
     private Rigidbody physics;
     private float startSpeed = 300;
+    private Transform paddleParent;
 
     private void Awake()
     {
         physics = gameObject.GetComponent<Rigidbody>();
+        paddleParent = transform.parent;
     }
 
 
@@ -22,6 +24,16 @@ public class Ball : MonoBehaviour
         {
             Launch();
         }
+    }
+
+    public void Reset()
+    {
+        gameObject.SetActive(true);
+        isInPlay = false;
+        physics.isKinematic = true;
+        transform.parent = paddleParent;
+        transform.position = new Vector3(0f, 01f, 0f);
+
     }
 
     private bool IsOkToLaunch()
