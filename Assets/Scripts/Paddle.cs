@@ -18,6 +18,12 @@ public class Paddle : MonoBehaviour
     public void Reset()
     {
         gameObject.SetActive(true);
+        transform.position = new Vector3(0f, 0.5f, 0f);
+    }
+
+    public void Disable()
+    {
+        gameObject.SetActive(false);
     }
 
     private void FixedUpdate()

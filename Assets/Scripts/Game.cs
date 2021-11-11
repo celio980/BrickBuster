@@ -25,10 +25,22 @@ public class Game : MonoBehaviour
     }
     public void LoseBall()
     {
-        Paddle.gameObject.SetActive(false);
-        Ball.gameObject.SetActive(false);
+        Ball.CreateDeathEffect();
         UpdateNumberOfBalls(ballsRemaining - 1);
         CheckForGameOver();
+    }
+
+    public void DisableGameplay()
+    {
+        Paddle.Disable();
+        Ball.Disable();
+    }
+
+    public void BrickBreak()
+    {
+        print("BrickBreak");
+        UpdateScore(score + 10);
+        CheckIfWon();
     }
 
     private void CheckForGameOver()
@@ -39,9 +51,22 @@ public class Game : MonoBehaviour
             ResetAfterBallLoss();
     }
 
+    private void CheckIfWon()
+    {
+        int brickCount = CountBricks();
+        print("brickCount = " + brickCount);
+        if (CountBricks() == 0)
+        {
+            Readouts.ShowWinResult();
+            DisableGameplay();
+        }
+    }
+
+
     private void LoseGame()
     {
-
+        DisableGameplay();
+        Readouts.ShowLoseResult();
     }
 
     private void Reset()
@@ -68,5 +93,10 @@ public class Game : MonoBehaviour
     {
         score = newScore;
         Readouts.ShowScore(score);
+    }
+
+    private int CountBricks()
+    {
+        return GameObject.FindGameObjectsWithTag("Brick").Length - 1;
     }
 }

@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ball : MonoBehaviour
+public class Ball : DeathEffectObject
 {
 
     private bool isInPlay = false;
     private Rigidbody physics;
     private float startSpeed = 300;
     private Transform paddleParent;
+
+
 
     private void Awake()
     {
@@ -24,6 +26,11 @@ public class Ball : MonoBehaviour
         {
             Launch();
         }
+    }
+
+    public void Disable()
+    {
+        gameObject.SetActive(false);
     }
 
     public void Reset()
@@ -50,4 +57,5 @@ public class Ball : MonoBehaviour
         physics.isKinematic = false;
         physics.AddForce(new Vector3(startSpeed, startSpeed, 0f));
     }
+
 }

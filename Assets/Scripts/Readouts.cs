@@ -15,7 +15,7 @@ public class Readouts : MonoBehaviour
         ShowScore(0);
         ShowLevel(1);
         ShowBallsRemaining(startingNumberOfBalls);
-        HideWinResults();
+        HideWinResult();
     }
 
 
@@ -50,7 +50,7 @@ public class Readouts : MonoBehaviour
         GameResult.text = "WIN";
     }
 
-    public void HideWinResults()
+    public void HideWinResult()
     {
         GameResult.text = "";
     }
