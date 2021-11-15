@@ -7,7 +7,9 @@ public class Game : MonoBehaviour
     public Paddle Paddle;
     public Ball Ball;
     public Readouts Readouts;
+
     public static Game Instance;
+    private Levels Levels;
     private int ballsRemaining;
     private int score;
 
@@ -17,6 +19,7 @@ public class Game : MonoBehaviour
             Destroy(this.gameObject);
         else
             Instance = this;
+        Levels = gameObject.GetComponent<Levels>();
     }
 
     private void Start()
@@ -28,6 +31,7 @@ public class Game : MonoBehaviour
         Ball.CreateDeathEffect();
         UpdateNumberOfBalls(ballsRemaining - 1);
         CheckForGameOver();
+        Sounds.Instance.PlayLoseBall();
     }
 
     public void DisableGameplay()
@@ -38,7 +42,6 @@ public class Game : MonoBehaviour
 
     public void BrickBreak()
     {
-        print("BrickBreak");
         UpdateScore(score + 10);
         CheckIfWon();
     }
@@ -53,13 +56,21 @@ public class Game : MonoBehaviour
 
     private void CheckIfWon()
     {
-        int brickCount = CountBricks();
-        print("brickCount = " + brickCount);
         if (CountBricks() == 0)
         {
-            Readouts.ShowWinResult();
             DisableGameplay();
+            Levels.GoToNextLevel();
+            if (Levels.IsGameOver())
+                WinGame();
+            else
+                ResetAfterBallLoss();
         }
+    }
+
+    private void WinGame()
+    {
+        Readouts.ShowWinResult();
+        Sounds.Instance.PlayStart();
     }
 
 
@@ -67,6 +78,7 @@ public class Game : MonoBehaviour
     {
         DisableGameplay();
         Readouts.ShowLoseResult();
+        Sounds.Instance.PlayLose();
     }
 
     private void Reset()
@@ -74,6 +86,7 @@ public class Game : MonoBehaviour
         UpdateNumberOfBalls(3);
         score = 0;
         Readouts.Reset(ballsRemaining);
+        Sounds.Instance.PlayStart();
     }
 
 
